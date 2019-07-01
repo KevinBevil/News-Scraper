@@ -81,3 +81,29 @@ app.get("/articles/:id", function(req, res) {
       res.json(err);
     });
 });
+
+// Route for saving and updated an article's associated note
+app.post("/articles/:id", function(req, res) {
+  // Create new note and pass req.body to entry
+  db.Note.create(req.body)
+    .then(function(dbNote) {
+      // If successfull, find article with params.id, and update article
+      // to be associated with new note
+      return db.Article.findOneAndUpdate(
+        { _id: req.params.id },
+        { note: dbNote._id },
+        { new: true }
+      );
+    })
+    .then(function(dbArticle) {
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
+
+app.listen(PORT, function() {
+   console.log("App running on port " + PORT + "!");
+});
