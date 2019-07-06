@@ -86,17 +86,14 @@ app.get("/articles/:id", function(req, res) {
 app.post("/articles/:id", function(req, res) {
   // Create new note and pass req.body to entry
   db.Note.create(req.body)
+
     .then(function(dbNote) {
       // If successfull, find article with params.id, and update article
       // to be associated with new note
       return db.Article.findOneAndUpdate(
         { _id: req.params.id },
-        { note: dbNote._id },
-        { new: true }
+        { note: dbNote }
       );
-    })
-    .then(function(dbArticle) {
-      res.json(dbArticle);
     })
     .catch(function(err) {
       res.json(err);

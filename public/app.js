@@ -1,58 +1,65 @@
-// JQuery get method to retrieve articles as JSON
+// This gets the articles as JSON
 $.getJSON("/articles", function(data) {
-  for (let i = 0; i < data.length; i++) {
-    // This displays our article info
-    $("#articles").append(
-      `<p data-id="${data[i]._id}">${data[i].title}<br />${data[i].link}</p>`
-    );
-  }
-});
+   // For each one
+   for (var i = 0; i < data.length; i++) {
+     // Display the info on the page
+     $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+   }
+ });
 
-// When the user clicks a p tag
-$(document).on("click", "p", function() {
-  $("#notes").empty();
-  var thisId = $(this).attr("data-id");
-
-  $.ajax({
-    method: "GET",
-    url: "/articles/" + thisId
-  })
-    // Adding the note info
-    .then(function(data) {
-      console.log(data);
-      $("#notes").append("<h2>" + data.title + "</h2>");
-      $("#notes").append("<input id='titleinput' name='title' >");
-      $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
-      $("#notes").append(
-        "<button data-id='" + data._id + "' id='savenote'>Save Note</button>"
-      );
-
-      if (data.note) {
-        $("titleinput").val(data.note.title);
-        $("bodyinput").val(data.note.body);
-      }
-    });
-});
-
-$(document).on("click", "#savenote", function() {
-  let thisId = $(this).attr("data-id");
-
-  $.ajax({
-    method: "POST",
-    url: "/articles/" + thisId,
-    data: {
-      // Value taken from title input
-      title: $("#titleinput").val(),
-      // Value taken from note textarea
-      body: $("#bodyinput").val()
-    }
-  })
-  .then(function(data) {
-     console.log(data);
-     $("#notes").empty();
-  });
-
-  // Clear the values that have been entered in the input
-  $("#titleinput").val("");
-  $("#bodyinput").val("");
-});
+ // P tag handler
+ $(document).on("click", "p", function() {
+   $("#notes").empty();
+   var thisId = $(this).attr("data-id");
+ 
+   // The ajax call to populate the DOM with the articles
+   $.ajax({
+     method: "GET",
+     url: "/articles/" + thisId
+   })
+     // With that done, add the note information to the page
+     .then(function(data) {
+       console.log(data);
+       $("#notes").append("<h2>" + data.title + "</h2>");
+       $("#notes").append("<input id='titleinput' name='title' >");
+       $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
+       $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+ 
+       if (data.note) {
+         // Place the title of the note in the title input
+         $("#titleinput").val(data.note.title);
+         // Place the body of the note in the body textarea
+         $("#bodyinput").val(data.note.body);
+       }
+     });
+ });
+ 
+ // When you click the savenote button
+ $(document).on("click", "#savenote", function() {
+   // Grab the id associated with the article from the submit button
+   var thisId = $(this).attr("data-id");
+ 
+   // Run a POST request to change the note, using what's entered in the inputs
+   $.ajax({
+     method: "POST",
+     url: "/articles/" + thisId,
+     data: {
+       // Value taken from title input
+       title: $("#titleinput").val(),
+       // Value taken from note textarea
+       body: $("#bodyinput").val()
+     }
+   })
+     // With that done
+     .then(function(data) {
+       // Log the response
+       console.log(data);
+       // Empty the notes section
+       $("#notes").empty();
+     });
+ 
+   // Also, remove the values entered in the input and textarea for note entry
+   $("#titleinput").val("");
+   $("#bodyinput").val("");
+ });
+ 
