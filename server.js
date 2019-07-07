@@ -21,18 +21,10 @@ app.use(express.json());
 // 'public' needs to be a static folder
 app.use(express.static("public"));
 
-var mongoDB = "mongodb://KevinBevil:user1password@ds241489.mlab.com:41489/unit18Populater";
-mongoose.connect(mongoDB, {
-  useMongoClient: true
-});
-var mondb = mongoose.connection;
-
-mondb.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
 // Mongo DB connection
-// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/unit18Populater";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/unit18Populater";
 
-// mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI);
 
 // Routes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -92,6 +84,23 @@ app.get("/articles/:id", function(req, res) {
 
 // Route for saving and updated an article's associated note
 app.post("/articles/:id", function(req, res) {
+  // Create new note and pass req.body to entry
+  db.Note.create(req.body)
+
+    .then(function(dbNote) {
+      // If successfull, find article with params.id, and update article
+      // to be associated with new note
+      return db.Article.findOneAndUpdate(
+        { _id: req.params.id },
+        { note: dbNote }
+      );
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
+app.delete("/articles/:id", function(req, res) {
   // Create new note and pass req.body to entry
   db.Note.create(req.body)
 
