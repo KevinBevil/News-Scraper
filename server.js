@@ -2,13 +2,15 @@ var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
+var dbMongo = require("./config/keys").mongoURI;
+
 // These will be used in our scraping
 var axios = require("axios");
 var cheerio = require("cheerio");
 
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 // Initialize express, which is used for our routing
 var app = express();
@@ -21,10 +23,10 @@ app.use(express.json());
 // 'public' needs to be a static folder
 app.use(express.static("public"));
 
-// Mongo DB connection
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/unit18Populater";
-
-mongoose.connect(MONGODB_URI);
+mongoose
+  .connect(dbMongo)
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
 
 // Routes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -117,7 +119,6 @@ app.delete("/articles/:id", function(req, res) {
     });
 });
 
-
 app.listen(PORT, function() {
-   console.log("App running on port " + PORT + "!");
+  console.log("App running on port " + PORT + "!");
 });
