@@ -30,6 +30,10 @@ mongoose
 
 // Routes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+
+app.get("/", function(req, res) {
+  res.json(path.join(__dirname, "public/index.html"));
+});
 // This route is for scraping the echoJS website
 app.get("/scrape", function(req, res) {
   // ..grab body of html with axios
