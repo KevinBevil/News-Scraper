@@ -24,7 +24,7 @@ app.use(express.static("public"));
 // Mongo DB connection
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/unit18Populater";
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect("mongodb://KevinBevil:user1password@ds035310.mlab.com:35310/heroku_xdfp86pb");
 
 
 // Routes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
