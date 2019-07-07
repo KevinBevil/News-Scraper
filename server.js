@@ -23,13 +23,11 @@ app.use(express.json());
 // 'public' needs to be a static folder
 app.use(express.static("public"));
 
-mongoose
-  .connect(dbMongo)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+mongoose.connect(process.env.MONGODB_URI || dbMongo, {
+  useMongoClient: true
+});
 
 // Routes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
 
 app.get("/", function(req, res) {
   res.json(path.join(__dirname, "public/index.html"));
