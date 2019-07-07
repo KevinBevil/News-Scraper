@@ -21,7 +21,7 @@ app.use(express.json());
 // 'public' needs to be a static folder
 app.use(express.static("public"));
 
-var mongoDB = "mongodb://<KevinBevil>:<user1password>@ds241489.mlab.com:41489/<unit18Populater>";
+var mongoDB = "mongodb://KevinBevil:user1password@ds241489.mlab.com:41489/unit18Populater";
 mongoose.connect(mongoDB, {
   useMongoClient: true
 });
