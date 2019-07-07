@@ -23,9 +23,7 @@ app.use(express.json());
 // 'public' needs to be a static folder
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || dbMongo, {
-  useMongoClient: true
-});
+mongoose.connect(dbMongo);
 
 // Routes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
