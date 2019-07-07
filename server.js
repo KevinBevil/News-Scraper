@@ -21,10 +21,18 @@ app.use(express.json());
 // 'public' needs to be a static folder
 app.use(express.static("public"));
 
-// Mongo DB connection
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/unit18Populater";
+var mongoDB = "mongodb://<KevinBevil>:<user1password>@ds241489.mlab.com:41489/<unit18Populater>";
+mongoose.connect(mongoDB, {
+  useMongoClient: true
+});
+var mondb = mongoose.connection;
 
-mongoose.connect(MONGODB_URI);
+mondb.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+// Mongo DB connection
+// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/unit18Populater";
+
+// mongoose.connect(MONGODB_URI);
 
 // Routes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
