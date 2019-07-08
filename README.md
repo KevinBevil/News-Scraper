@@ -1,4 +1,7 @@
 # Scrape with Finesse
+
+Deployed Site: https://calm-hamlet-18165.herokuapp.com/
+
 > A web app that lets users view and comment on the latest news
 
 
