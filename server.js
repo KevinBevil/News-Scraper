@@ -2,7 +2,7 @@ var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
-var dbMongo = require("./config/keys").mongoURI;
+// var dbMongo = require("./config/keys").mongoURI;
 
 // These will be used in our scraping
 var axios = require("axios");
@@ -23,8 +23,9 @@ app.use(express.json());
 // 'public' needs to be a static folder
 app.use(express.static("public"));
 
-mongoose.connect(dbMongo);
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/unit18Populater";
 
+mongoose.connect(MONGODB_URI);
 // Routes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 app.get("/", function(req, res) {
