@@ -49,16 +49,30 @@ $(document).on("click", "p", function() {
     }
   });
 });
-
+// Scrape button sends the ajax get call, which triggers the article scrape
 $(document).on("click", "#scrape", function() {
   $.ajax({
     method: "GET",
     url: "/scrape"
   })
   .then(function() {
+    alert("Just a moment, getting articles...");
+
     window.location.reload();
+  });
+});
+
+// De-scrape button deletes all articles
+$(document).on("click", "#de-scrape", function() {
+  $.ajax({
+    method: "DELETE",
+    url: "/delete"
   })
-})
+  .then(function() {
+    alert("Articles successfully deleted");
+    window.location.reload();
+  });
+});
 // When you click the savenote button
 $(document).on("click", "#savenote", function() {
   // Grab the id associated with the article from the submit button

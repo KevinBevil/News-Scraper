@@ -73,6 +73,16 @@ app.get("/articles", function(req, res) {
     });
 });
 
+app.delete("/delete", function(req, res) {
+  db.Article.deleteMany({})
+    .then(function(data) {
+      res.json(data)
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
 // Route for getting a certain article by its id, and populating it with its note
 app.get("/articles/:id", function(req, res) {
   db.Article.findOne({ _id: req.params.id })
